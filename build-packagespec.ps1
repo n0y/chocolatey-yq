@@ -3,10 +3,10 @@ $YqVersion = $Props.UPSTREAM_VERSION
 "Building Upstream Version: $YqVersion"
 ""
 
-$ChecksumOrderResponse = (Invoke-WebRequest -Uri "https://github.com/mikefarah/yq/releases/download/v$YqVersion/checksums_hashes_order").tostring()
+$ChecksumOrderResponse = (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mikefarah/yq/releases/download/v$YqVersion/checksums_hashes_order").tostring()
 $Sha256FieldNumber = ($ChecksumOrderResponse -split "[`r`n]" | Select-String "SHA-256").LineNumber
 
-$ChecksumResponse = (Invoke-WebRequest -Uri "https://github.com/mikefarah/yq/releases/download/v$YqVersion/checksums").tostring()
+$ChecksumResponse = (Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mikefarah/yq/releases/download/v$YqVersion/checksums").tostring()
 $ChecksumList64 = $ChecksumResponse -split "[`r`n]" | Select-String "yq_windows_amd64.exe" | select -First 1
 $Checksum64 = (($ChecksumList64 -split "  ")[$Sha256FieldNumber]).ToUpper()
 
